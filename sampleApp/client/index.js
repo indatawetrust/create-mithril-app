@@ -1,3 +1,5 @@
+require('./style.css')
+
 const m = require('mithril');
 const MainView = require('./MainView');
 

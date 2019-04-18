@@ -1,5 +1,7 @@
 const path = require('path');
-require('dotenv').config({ path: path.resolve(process.cwd(), '.env.development') });
+require('dotenv').config({
+  path: path.resolve(process.cwd(), '.env.development'),
+});
 require('dotenv').config();
 const webpack = require('webpack');
 
@@ -10,9 +12,11 @@ const babel = true;
 // inject envs
 let plugins = [];
 let envs = {};
-Object.keys(process.env).filter(key => key.startsWith('MITHRIL_')).forEach(key => {
-  envs[key] = JSON.stringify(process.env[key]);
-});
+Object.keys(process.env)
+  .filter(key => key.startsWith('MITHRIL_'))
+  .forEach(key => {
+    envs[key] = JSON.stringify(process.env[key]);
+  });
 plugins.push(new webpack.DefinePlugin(envs));
 
 let app = ['./client/index.js'];
@@ -32,14 +36,19 @@ if (babel) {
   });
 }
 
+rules.push({
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader'],
+});
+
 module.exports = {
   entry: {
     app: app,
   },
   output: {
-    filename: "static/app.js",
+    filename: 'static/app.js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: "/",
+    publicPath: '/',
   },
   mode: 'development',
   devtool: 'source-map',
